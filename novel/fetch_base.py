@@ -1,4 +1,5 @@
 import os
+import re
 
 # 小说的保存文件夹
 novel_save_dir = os.path.join(os.getcwd(), 'novel_cache/')
@@ -13,12 +14,13 @@ class Chapter:
         return "章节名:{}, url:{}".format(self.chapter_name, self.chapter_url)
 
 
-class NovelFetcher:
-    chapter_data = []
-    content_data = []
-    novel_name = ''
-    novel_url = ''
+def sort_key(s):
+    # 排序关键字匹配
+    # 匹配开头数字序号
+    if s:
+        try:
+            c = re.findall('^\d+', s)[0]
+        except:
+            c = -1
 
-    def __init__(self, novel_name, novel_url):
-        self.novel_name = novel_name
-        self.novel_url = novel_url
+        return int(c)
